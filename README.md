@@ -48,6 +48,12 @@ No more `cd`-ing around in terminals. Just press **Cmd + Shift + C**, pick a pro
 
 ## Install
 
+### Homebrew
+
+```bash
+brew install --cask hjmolla/tap/ccquick
+```
+
 ### Download
 
 Grab the latest `.dmg` from [Releases](https://github.com/hjmolla/ccquick/releases).
