@@ -1,7 +1,7 @@
 import SwiftUI
 import CoreText
 
-private let claudeTerracotta = Color(red: 0.85, green: 0.47, blue: 0.34)
+private let claudeRed = Color(red: 0.89, green: 0.27, blue: 0.15)
 
 struct SplashView: View {
     @State private var bgOpacity: Double = 0
@@ -14,13 +14,10 @@ struct SplashView: View {
             Color.black.opacity(bgOpacity)
 
             if fontReady {
-                HStack(spacing: expanded ? 12 : 0) {
-                    // C → CLAUDE
+                HStack(spacing: expanded ? 10 : 0) {
                     expandingWord(initial: "C", full: "CLAUDE", color: .white)
-                    // C → CODE
                     expandingWord(initial: "C", full: "CODE", color: .white)
-                    // Q → QUICK
-                    expandingWord(initial: "Q", full: "QUICK", color: claudeTerracotta)
+                    expandingWord(initial: "Q", full: "QUICK", color: claudeRed)
                 }
                 .opacity(ccqOpacity)
             }
@@ -29,22 +26,35 @@ struct SplashView: View {
         .onAppear {
             registerFont()
             fontReady = true
-            animate()
+
+            withAnimation(.easeOut(duration: 0.5)) {
+                bgOpacity = 0.8
+            }
+
+            withAnimation(.easeOut(duration: 0.5).delay(0.2)) {
+                ccqOpacity = 1
+            }
+
+            withAnimation(.spring(response: 0.7, dampingFraction: 0.8).delay(1.0)) {
+                expanded = true
+            }
         }
     }
 
     private func expandingWord(initial: String, full: String, color: Color) -> some View {
         let suffix = String(full.dropFirst())
-        let fontName = workbenchFontName()
+        let fontName = dmSerifFontName()
 
         return HStack(spacing: 0) {
             Text(initial)
-                .font(.custom(fontName, size: 48))
+                .font(.custom(fontName, size: 56))
+                .italic()
                 .foregroundColor(color)
 
             if expanded {
                 Text(suffix)
-                    .font(.custom(fontName, size: 48))
+                    .font(.custom(fontName, size: 56))
+                    .italic()
                     .foregroundColor(color)
                     .transition(.asymmetric(
                         insertion: .move(edge: .leading).combined(with: .opacity),
@@ -55,57 +65,27 @@ struct SplashView: View {
         .clipped()
     }
 
-    private func animate() {
-        // Dark background
-        withAnimation(.easeOut(duration: 0.5)) {
-            bgOpacity = 0.8
-        }
-
-        // CCQ fades in
-        withAnimation(.easeOut(duration: 0.5).delay(0.2)) {
-            ccqOpacity = 1
-        }
-
-        // CCQ → CLAUDE CODE QUICK
-        withAnimation(.spring(response: 0.7, dampingFraction: 0.8).delay(1.0)) {
-            expanded = true
-        }
-    }
-
     private func registerFont() {
-        guard let fontPath = Bundle.main.path(forResource: "Workbench", ofType: "ttf"),
+        guard let fontPath = Bundle.main.path(forResource: "DMSerifDisplay-Italic", ofType: "ttf"),
               let fontData = NSData(contentsOfFile: fontPath),
               let provider = CGDataProvider(data: fontData),
-              let cgFont = CGFont(provider) else {
-            print("[CCQuick] Failed to load Workbench font file")
-            return
-        }
+              let cgFont = CGFont(provider) else { return }
 
         var error: Unmanaged<CFError>?
-        if !CTFontManagerRegisterGraphicsFont(cgFont, &error) {
-            if let err = error?.takeRetainedValue() {
-                let desc = CFErrorCopyDescription(err) as String? ?? "unknown"
-                // Ignore "already registered" errors
-                if !desc.contains("already registered") {
-                    print("[CCQuick] Font registration error: \(desc)")
-                }
-            }
-        }
+        CTFontManagerRegisterGraphicsFont(cgFont, &error)
     }
 
-    private func workbenchFontName() -> String {
-        // Try different names the variable font might register as
-        let candidates = ["WorkbenchEvenly-Regular", "Workbench", "WorkbenchEvenly", "Workbench-Regular"]
+    private func dmSerifFontName() -> String {
+        let candidates = ["DMSerifDisplay-Italic", "DM Serif Display", "DMSerifDisplay"]
         for name in candidates {
             if let _ = NSFont(name: name, size: 12) {
                 return name
             }
         }
-        // Fallback — list all registered fonts containing "Workbench"
         let allFonts = NSFontManager.shared.availableFonts
-        if let match = allFonts.first(where: { $0.contains("Workbench") }) {
+        if let match = allFonts.first(where: { $0.contains("DMSerif") }) {
             return match
         }
-        return "Workbench"
+        return "Georgia"
     }
 }
