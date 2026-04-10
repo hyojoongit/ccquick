@@ -1,15 +1,15 @@
 ## Setting up the Homebrew Tap
 
-To make `brew install --cask hjmolla/tap/ccquick` work, you need a separate
-GitHub repository named `homebrew-tap` under the `hjmolla` account.
+To make `brew install --cask hyojoongit/tap/ccquick` work, you need a separate
+GitHub repository named `homebrew-tap` under the `hyojoongit` account.
 
 ### Steps
 
 1. **Create the repository** on GitHub:
    - Repository name: `homebrew-tap`
-   - Owner: `hjmolla`
+   - Owner: `hyojoongit`
    - Make it public
-   - The full URL will be: `https://github.com/hjmolla/homebrew-tap`
+   - The full URL will be: `https://github.com/hyojoongit/homebrew-tap`
 
 2. **Push the formula** to that repo:
    ```bash
@@ -19,14 +19,14 @@ GitHub repository named `homebrew-tap` under the `hjmolla` account.
    cp /path/to/ccquick/homebrew-tap/Casks/ccquick.rb Casks/ccquick.rb
    git add .
    git commit -m "Add CCQuick cask formula"
-   git remote add origin git@github.com:hjmolla/homebrew-tap.git
+   git remote add origin git@github.com:hyojoongit/homebrew-tap.git
    git push -u origin main
    ```
 
 3. **Test the install**:
    ```bash
-   brew tap hjmolla/tap
-   brew install --cask hjmolla/tap/ccquick
+   brew tap hyojoongit/tap
+   brew install --cask hyojoongit/tap/ccquick
    ```
 
 ### Updating for new releases
@@ -43,6 +43,6 @@ When you release a new version:
 
 ### How Homebrew Taps work
 
-- `brew tap hjmolla/tap` clones `https://github.com/hjmolla/homebrew-tap`
+- `brew tap hyojoongit/tap` clones `https://github.com/hyojoongit/homebrew-tap`
 - Homebrew looks for formulas in `Formula/` and casks in `Casks/`
 - The tap name is derived from the repo: `homebrew-tap` -> `tap`

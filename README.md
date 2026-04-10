@@ -51,8 +51,8 @@ No more `cd`-ing around in terminals. Just press **Cmd + Shift + C**, pick a pro
 ### Homebrew (recommended)
 
 ```bash
-brew tap hjmolla/tap
-brew install --cask hjmolla/tap/ccquick
+brew tap hyojoongit/tap
+brew install --cask hyojoongit/tap/ccquick
 ```
 
 This installs CCQuick to `/Applications` and automatically removes the Gatekeeper quarantine flag.
@@ -65,7 +65,7 @@ brew upgrade --cask ccquick
 
 ### Download
 
-Grab the latest `.dmg` from [Releases](https://github.com/hjmolla/ccquick/releases).
+Grab the latest `.dmg` from [Releases](https://github.com/hyojoongit/ccquick/releases).
 
 1. Open the DMG
 2. Drag **CCQuick** to **Applications**
@@ -80,7 +80,7 @@ Grab the latest `.dmg` from [Releases](https://github.com/hjmolla/ccquick/releas
 Requires macOS 15+ and Xcode Command Line Tools.
 
 ```bash
-git clone https://github.com/hjmolla/ccquick.git
+git clone https://github.com/hyojoongit/ccquick.git
 cd ccquick
 bash build.sh
 open build/CCQuick.app

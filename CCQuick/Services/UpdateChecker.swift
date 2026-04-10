@@ -3,7 +3,7 @@ import Cocoa
 
 final class UpdateChecker: @unchecked Sendable {
     static let shared = UpdateChecker()
-    private let repo = "hjmolla/ccquick"
+    private let repo = "hyojoongit/ccquick"
     private let currentVersion = "1.0.0"
 
     private init() {}
